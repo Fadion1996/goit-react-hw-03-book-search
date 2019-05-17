@@ -1,0 +1,36 @@
+.search-form {
+    width: 100%;
+    background-color: #027fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .search-form-input, .search-form-dropdown, .search-form-button {
+        margin: 1rem 3rem;
+    }
+
+    .search-form-input, .search-form-dropdown {
+        width: 200px;
+
+        label, fieldset, input, div, svg {
+            color: #fff;
+        }
+        fieldset {
+            border-color: #fff !important;
+        }
+
+    }
+    .search-form-dropdown {
+        .search-form-dropdown-select:before {
+            border-color: #fff;
+        }
+        :focus {
+            border-color: #fff;
+            background-color: transparent;
+        }
+
+    }
+    .search-form-button {
+        
+    }
+}
