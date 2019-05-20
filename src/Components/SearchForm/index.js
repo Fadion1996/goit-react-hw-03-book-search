@@ -1,20 +1,25 @@
 import React, { Component } from 'react';
-import {TextField, FormControl, InputLabel, MenuItem, Select, Button} from '@material-ui/core';
+import {TextField, FormControl, MenuItem, Button} from '@material-ui/core';
 import './search-form.scss'
 import shortid from 'shortid';
 
 export default class SearchForm extends Component {
 
     state = {
-        value: ''
+        search: '',
+        select: ''
     };
 
-    handleChange = event => {
-        this.setState({ value: event.target.value });
+    selectChange = event => {
+        this.setState({ select: event.target.value });
     };
 
-    handleClick = (e) => {
-        console.log(e.target.value)
+    searchChange = event => {
+        this.setState({ search: event.target.value });
+    };
+
+    handleClick = () => {
+        this.props.onSubmit(this.state.search, this.state.select)
     };
 
     render () {
@@ -28,21 +33,27 @@ export default class SearchForm extends Component {
                     placeholder="Enter name"
                     margin="normal"
                     variant="outlined"
+                    value={this.state.search}
+                    onChange={this.searchChange}
                 />
                 <FormControl
                     className='search-form-dropdown'>
-                    <InputLabel htmlFor="age-customized-select">
-                        Genre
-                    </InputLabel>
-                    <Select
+                    <TextField
+                        id="outlined-select-currency"
+                        select
+                        label="Select genre"
                         className='search-form-dropdown-select'
-                        value={this.state.value}
-                        onChange={this.handleChange}
+                        value={this.state.select}
+                        onChange={this.selectChange}
+                        margin="normal"
+                        variant="outlined"
                     >
                         {genres.map((genre) => (
-                            <MenuItem key={shortid.generate()} value={genre}>{genre}</MenuItem>
+                            <MenuItem  className='search-form-dropdown-select-option' key={shortid.generate()} value={genre}>
+                                {genre}
+                            </MenuItem>
                         ))}
-                    </Select>
+                    </TextField>
                 </FormControl>
                 <Button
                     variant="contained"

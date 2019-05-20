@@ -5,11 +5,11 @@
     align-items: center;
     justify-content: center;
 
-    .search-form-input, .search-form-dropdown, .search-form-button {
-        margin: 1rem 3rem;
+    .search-form-input, .search-form-dropdown-select, .search-form-button {
+        margin: 1rem 2rem;
     }
 
-    .search-form-input, .search-form-dropdown {
+    .search-form-input, .search-form-dropdown-select {
         width: 200px;
 
         label, fieldset, input, div, svg {
@@ -21,16 +21,15 @@
 
     }
     .search-form-dropdown {
-        .search-form-dropdown-select:before {
-            border-color: #fff;
+        .search-form-dropdown-select{
+            &:before, &:after, :hover {
+                border-color: #fff !important;
+            }
         }
         :focus {
             border-color: #fff;
             background-color: transparent;
         }
 
-    }
-    .search-form-button {
-        
     }
 }
