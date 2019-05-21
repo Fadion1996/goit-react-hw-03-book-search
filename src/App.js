@@ -3,11 +3,14 @@ import axios from 'axios'
 import './app.scss';
 
 import {BookList, Loader, SearchForm} from './Components'
+import {Typography} from "@material-ui/core";
+
 const apiKey = 'AIzaSyCy_9n4RfX6YAFvWQAw-dPPbLTUptnMLHs';
 
 class App extends Component {
     state = {
         genres: ["fantasy", "thriller", "drama", "mystery", "horror", "satire", "computers"],
+        books: [],
         isLoading: true,
     };
 
@@ -20,28 +23,29 @@ class App extends Component {
             <div className="app">
                 <SearchForm genres = {this.state.genres}  onSubmit = {this.setUserOption}/>
                 {(this.state.isLoading) ? <Loader/>
-                    : <BookList/>
+                    : (this.state.books.length) ?
+                        <BookList booksList={this.state.books}/>
+                        : <Typography className='no-results' component='h4' variant='h4'>No results.</Typography>
                 }
             </div>
         );
     };
 
-    setUserOption = (react = "flowers", subject = "fantasy") => {
-        this.setState({isLoading: true});
-        axios.get(`https://www.googleapis.com/books/v1/volumes?q=${react}+subject:${subject}+inauthor:keyes&key=${apiKey}`)
+    setUserOption = (react = "", subject = "") => {
+        this.setState({
+            isLoading: true,
+            books: []
+        });
+        axios.get(`https://www.googleapis.com/books/v1/volumes?q=${react}+subject:${subject}&key=${apiKey}`)
             .then((response) => {
                 // handle success
                 this.setState({isLoading: false});
                 Object.entries(response.data.items).map((item) => {
-                    console.log(item);
-                    if(item.status === 200) {
-                        console.log('qwe');
-                        item.data.items.map((book) => {
-                            console.log(book)
-                        })
+                    if(item.length > 0) {
+                        this.setState({books: this.state.books.concat(item[1]['volumeInfo'])});
                     }
+                    return null
                 });
-                console.log(response);
             })
             .catch((error) => {
                 // handle error
