@@ -14,29 +14,12 @@ class App extends Component {
         isLoading: true,
     };
 
-    componentDidMount() {
-        this.setUserOption();
-    }
-
-    render() {
-        return (
-            <div className="app">
-                <SearchForm genres = {this.state.genres}  onSubmit = {this.setUserOption}/>
-                {(this.state.isLoading) ? <Loader/>
-                    : (this.state.books.length) ?
-                        <BookList booksList={this.state.books}/>
-                        : <Typography className='no-results' component='h4' variant='h4'>No results.</Typography>
-                }
-            </div>
-        );
-    };
-
-    setUserOption = (react = "", subject = "") => {
+    setUserOption = (search = "", genre = "") => {
         this.setState({
             isLoading: true,
             books: []
         });
-        axios.get(`https://www.googleapis.com/books/v1/volumes?q=${react}+subject:${subject}&key=${apiKey}`)
+        axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}+subject:${genre}&key=${apiKey}`)
             .then((response) => {
                 // handle success
                 this.setState({isLoading: false});
@@ -56,7 +39,24 @@ class App extends Component {
                 this.setState({isLoading: false});
                 // always executed
             });
+    };
+
+    componentDidMount() {
+        this.setUserOption();
     }
+
+    render() {
+        return (
+            <div className="app">
+                <SearchForm genres = {this.state.genres}  onSubmit = {this.setUserOption}/>
+                {(this.state.isLoading) ? <Loader/>
+                    : (this.state.books.length) ?
+                        <BookList booksList={this.state.books}/>
+                        : <Typography className='no-results' component='h4' variant='h4'>No results.</Typography>
+                }
+            </div>
+        );
+    };
 }
 
 export default App;
