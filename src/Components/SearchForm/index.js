@@ -6,25 +6,26 @@ import shortid from 'shortid';
 export default class SearchForm extends Component {
 
     state = {
-        search: '',
-        select: ''
+        searchBook: '',
+        selectGenre: ''
     };
 
     selectChange = event => {
-        this.setState({ select: event.target.value });
+        this.setState({ selectGenre: event.target.value });
     };
 
     searchChange = event => {
-        this.setState({ search: event.target.value });
+        this.setState({ searchBook: event.target.value });
     };
 
     handleClick = () => {
-        this.props.onSubmit(this.state.search, this.state.select)
+        this.props.onSubmit(this.state.searchBook, this.state.selectGenre)
     };
 
     render () {
         const {genres} = this.props;
-        return (
+        const {searchBook, selectGenre} = this.state;
+         return (
             <section className="search-form">
                 <TextField
                     id="outlined-with-placeholder"
@@ -33,7 +34,7 @@ export default class SearchForm extends Component {
                     placeholder="Enter name"
                     margin="normal"
                     variant="outlined"
-                    value={this.state.search}
+                    value={searchBook}
                     onChange={this.searchChange}
                 />
                 <FormControl
@@ -43,13 +44,15 @@ export default class SearchForm extends Component {
                         select
                         label="Select genre"
                         className='search-form-dropdown-select'
-                        value={this.state.select}
+                        value={selectGenre}
                         onChange={this.selectChange}
                         margin="normal"
                         variant="outlined"
                     >
                         {genres.map((genre) => (
-                            <MenuItem  className='search-form-dropdown-select-option' key={shortid.generate()} value={genre}>
+                            <MenuItem  className='search-form-dropdown-select-option' 
+                            key={shortid.generate()} 
+                            value={genre}>
                                 {genre}
                             </MenuItem>
                         ))}

@@ -22,23 +22,17 @@ class App extends Component {
         axios.get(`https://www.googleapis.com/books/v1/volumes?q=${search}+subject:${genre}&key=${apiKey}`)
             .then((response) => {
                 // handle success
-                this.setState({isLoading: false});
-                Object.entries(response.data.items).map((item) => {
-                    if(item.length > 0) {
-                        this.setState({books: this.state.books.concat(item[1]['volumeInfo'])});
-                    }
+                response.data.items.map((item) => {
+                    this.setState({
+                        books: this.state.books.concat(item.volumeInfo)
+                    });
                     return null
                 });
-            })
-            .catch((error) => {
-                // handle error
                 this.setState({isLoading: false});
-                console.log(error);
             })
-            .finally(() => {
+            .catch(() => {
                 this.setState({isLoading: false});
-                // always executed
-            });
+            })
     };
 
     componentDidMount() {

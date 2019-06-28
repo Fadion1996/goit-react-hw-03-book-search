@@ -1,15 +1,13 @@
-import React, { Component } from 'react';
+import React from 'react';
 import './loader.scss'
 import Spinner from 'react-spinkit'
 
-export default class Loader extends Component {
+const  Loader = () => (
 
-    render () {
+        <section className="loader">
+            <Spinner name="line-scale" />
+        </section>
 
-        return (
-            <section className="loader">
-                <Spinner name="line-scale" />
-            </section>
-        )
-    }
-}
+)
+
+export default Loader
